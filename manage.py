@@ -21,11 +21,19 @@ def transform_data(accounts):
     return accounts
 
 #------------------------------------------------------------------------------------------------------------
-#Transform data
+#Load data
+def update_users(user):
+  users = []
+  for id in filter:
+        users.append(id['id'])
+  response = requests.put(f"{sdw2023_api_url}/users/{users}", json=user)
+  return True if response.status_code == 200 else False
+
 def main():
     account_list = get_accounts()
     filter = transform_data(account_list)
-    df = pd.json_normalize(filter) #.to_excel('testado.xlsx')
+    update_users(filter)
+    df = pd.json_normalize(filter).to_excel('testado.xlsx')
 
 
 if __name__ == '__main__':
